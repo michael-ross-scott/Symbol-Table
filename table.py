@@ -2,8 +2,6 @@ import copy
 
 
 class TableEntry:
-    variable = ""
-    value = ""
 
     def __init__(self, variable, value):
         self.variable = variable
@@ -17,14 +15,10 @@ class TableEntry:
 
 
 class Table:
-    table = []
-    size = 5
-
-    def getVariable(self,value):
-        list = value.split(" ")
-        return value[0]
 
     def __init__(self):
+        self.size = 5
+        self.table = []
         for i in range(self.size):
             self.table.append([])
 
@@ -62,10 +56,6 @@ class Table:
                         return i.getValue()
             return False
 
-    def clear(self):
-        for i in range(len(self.table)):
-            self.table[i] = []
-
 
 class SymTable:
     list = []
@@ -76,18 +66,12 @@ class SymTable:
         self.sym_table = Table()
 
     def beginscope(self):
-        if self.counter != 0:
-            new_sym_table = copy.deepcopy(self.sym_table)
-            self.list.append(new_sym_table)
-        self.counter += 1
+        new_sym_table = copy.deepcopy(self.sym_table)
+        self.list.append(new_sym_table)
         return "beginscope"
 
     def endscope(self):
-        if self.counter > 1:
-            self.sym_table = self.list.pop()
-        else:
-            self.sym_table.clear()
-        self.counter -= 1
+        self.sym_table = self.list.pop()
         return "endscope"
 
     def define(self, variable, value):
@@ -96,6 +80,7 @@ class SymTable:
 
     def use(self, variable):
         value = self.sym_table.find(variable)
+
         if value == False:
             return "use " + variable + " = undefined"
         else:

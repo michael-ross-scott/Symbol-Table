@@ -1,4 +1,4 @@
-#include #!/usr/bin/python
+include #!/usr/bin/python
 import sys
 import table
 sym_table = table.SymTable()
